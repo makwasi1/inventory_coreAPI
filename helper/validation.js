@@ -23,4 +23,5 @@ const schema = {
 return Joi.validate(data, schema)
 };
 
+
 module.exports.registerValidation = registerValidation;
