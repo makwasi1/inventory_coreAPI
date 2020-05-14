@@ -1,5 +1,7 @@
 const db = require("../config/conf");
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const {registerValidation} = require('../helper/validation')
 
 db.once("open",  () => {
     console.log("connected")
@@ -8,39 +10,32 @@ db.once("open",  () => {
 db.on("error", () => console.log("disconnected"));
 
 module.exports = {
-    Signup: (req, res) => {
-        const userName = req.body.username;
-        const Password = req.body.password;
-        const firstName = req.body.firstName;
-        const lastName = req.body.lastname;
-        const email = req.body.email;
+    Signup: async (req, res) => {
+        const {error} = registerValidation(req.body)
+        if(error) return res.status(400).send(error.details[0].message);
 
-        User.findOne({ email: email}).then( user => {
-            if(user){
-                res.status(400).json({ message: "User already exists"})
-            } else{
-                const NewUser = new User({
-                    username: userName,
-                    password: Password,
-                    firstname: firstName,
-                    lastname: lastName,
-                    email: email
-                });
-                NewUser.save()
-                    .then( saved => {
-                        console.log("New user Saved", saved);
-                        return res.status(200).json({message:"save was sucessful"})
-                    })
-                    .catch( error => {
-                        console.log("error saving new user");
-                        return res.status(400).json({message: "error occured"})
-                    })
-            }
-        })
+        const emailExists = await User.findOne({email: req.body.email});
+        if(emailExists) return res.status(200).send("email already exists")
+
+        const Users =  new User({
+        username: req.body.username,
+        password: req.body.password,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email
+        });
+        try{
+            const savedUser = await Users.save();
+            res.send(savedUser)
+        }catch (err) {
+            res.status(400).send(err);
+        }
+
     },
     logIn: (req, res) =>{
         const username = req.body.username;
         const password = req.body.password;
+
 
         User.findOne({username: username, password: password}).then( loged => {
             if(loged){
@@ -56,5 +51,3 @@ module.exports = {
         })
     }
 };
-
- 
