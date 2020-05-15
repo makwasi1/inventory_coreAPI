@@ -1,6 +1,5 @@
 const db = require("../config/conf");
 const User = require("../models/User");
-const bcrypt = require("bcryptjs");
 const {registerValidation} = require('../helper/validation')
 
 db.once("open",  () => {
