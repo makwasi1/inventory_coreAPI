@@ -1,29 +1,37 @@
 const Items = require('../models/itemsModel')
-require('../config/con')
+const Category = require('../models/categoryModel')
+require('../config')
 
 module.exports  = {
-    AddItems:(req,res) =>{
-        const newItem = new Items({
-            productName : req.body.productName,
-            description : req.body.description,
-            category : req.body.category,
-            price: req.body.price,
-            availableStock : req.body.availableStock,
-            itemImage: req.body.image
-        })
-        newItem.save()
-        .then(data =>{
-            console.log("new item added",data)
-            res.json(data)
-        }).catch(error =>{
-            console.log({message:error})
-        })
+    //adds an category to an item
+    AddItems: async (req,res,next) =>{
+     try {
+         //find the category it belongs to
+        
+          const belongs = await Category.findById(req.body.belongs) 
+        
+        // create a new item
+        const newItem = req.body
+        delete newItem.belongs
+
+        const item = new Items(newItem)
+        Items.belongs = belongs
+        await item.save()
+        //add newly created item to the category
+        belongs.items.push(item)
+        await belongs.save()
+        
+
+        res.status(201).json(item)
+
+     } catch (error) {
+         res.status(500).json({message:error})
+     }
     },
     viewItems:async (req,res) =>{
         try {
             const viewItems = await Items.find()
             res.json(viewItems)
-            required: true
             
         } catch (error) {
             res.json({message:error})
@@ -59,5 +67,6 @@ module.exports  = {
      res.json({message:error})
  }
   }
+
 
 }
