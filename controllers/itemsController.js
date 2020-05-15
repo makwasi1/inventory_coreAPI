@@ -23,6 +23,7 @@ module.exports  = {
         try {
             const viewItems = await Items.find()
             res.json(viewItems)
+            required: true
             
         } catch (error) {
             res.json({message:error})
