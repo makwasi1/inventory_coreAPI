@@ -16,7 +16,7 @@ module.exports = {
                     req.value['params'] = {}
 
 
-                req.value['params'][name] = result.value.param
+                req.value['params'][name] = result.value.param;
 
                 next()
             }
@@ -56,7 +56,7 @@ module.exports = {
             availableStock: Joi.number().required()
         }),
         newItemSchema: Joi.object().keys({
-            belongs: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+            belongs: Joi.string().regex(/^[0-9a-zA-Z]{24}$/).required(),
             productName: Joi.string().required(),
             description: Joi.string().required(),
             price: Joi.string().required(),
@@ -82,7 +82,8 @@ module.exports = {
         }),
         
         idSchema : Joi.object().keys({
-        param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required() 
+        param: Joi.string().regex(/^[0-9a-zA-Z]{24}$/).required() 
         })
     }
+    //.regex(/^[0-9a-fA-F]{24}$/)
 }
