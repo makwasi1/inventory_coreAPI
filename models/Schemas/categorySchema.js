@@ -5,12 +5,15 @@ const CategoriesSchema = new Schema({
         type: String,
         required: true
     },
-    desccription:{
+    description:{
         type: String,
         required:true
-    }
+    },
+    items:[{
+        type: Schema.Types.ObjectId,
+        ref : 'items'
+    }]
 })
 
 module.exports = CategoriesSchema;
 
-const {Schema} = require('mongoose');

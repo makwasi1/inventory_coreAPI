@@ -21,11 +21,11 @@ const itemsSchema = new Schema({
         type: Number,
         required: true
     },
-    itemImage:{
-        data: Buffer,
-        type: String
+    belongs:{
+        type: Schema.Types.ObjectId,
+        ref : 'category'
     }
-})
+});
 
 
 module.exports = itemsSchema;

@@ -1,5 +1,6 @@
+const {Schema} = require('mongoose')
 const UsersSchema = new Schema({
-    userName:{
+    username:{
         type: String,
         required: true
     },
@@ -7,13 +8,17 @@ const UsersSchema = new Schema({
         type: String,
         required: true
     },
-    lastName:{
+    lastname:{
         type: String,
         required: true
     },
-    firstName:{
+    firstname:{
         type: String,
         required: true
+    },
+    email:{
+        type: String,
+        required : true
     }
 })
 
