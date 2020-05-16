@@ -7,14 +7,15 @@ module.exports  = {
     addCat:(req,res) =>{
         const newCat = new category(req.value.body)
         newCat.save()
-        .then(data =>{
-            console.log("new category added",data)
-            res.json(data)
+        .then(saved =>{
+            console.log("new category added",saved)
+            res.json(saved)
         }).catch(error =>{
             console.log({message:error})
         })
     },
-    viewCat:  async (req,res) =>{
+
+    viewCat:  async  (req,res) =>{
         try {
             const viewCat = await category.find()
             res.json(viewCat)
@@ -67,6 +68,16 @@ module.exports  = {
         }   
     },
 
+    deleteCategory: async (req,res,next) =>{
+        try {
+            const {catId} = req.value.params
+            const deleteCategory = await category.remove({_id:catId})
+            res.json(deleteCategory)
+        } catch (error) { 
+            res.json({message:error})
+        }
+        
+    },  
      newCategoryItem: async (req,res,next) =>{
         try {
           const {catId} = req.value.params  
