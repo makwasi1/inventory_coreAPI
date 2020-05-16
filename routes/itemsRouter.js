@@ -6,8 +6,8 @@ const {AddItems,
 const {schemas, validateBody, validateParam} = require('../helpers/routeHelper')
 const router = express.Router()
 
-router.route('/inventory').post(validateBody(schemas.newItemSchema),AddItems)
-router.route('/inventory').get(viewItems)
+router.route('/items').post(AddItems)
+router.route('/items').get(viewItems)
 
 
 
