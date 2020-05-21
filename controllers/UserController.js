@@ -1,6 +1,7 @@
-const db = require("../config/conf");
-const User = require("../models/User");
+const db = require("../config");
+const User = require("../models/userModel");
 const {registerValidation} = require('../helpers/validation')
+
 
 db.once("open",  () => {
     console.log("connected")
