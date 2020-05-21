@@ -7,7 +7,7 @@ const userRouter = require('./routes/routers')
  require('./config')
 
 //define the port number
-const port = process.env.PORT||3000;
+const port = process.env.PORT|| 5454;
 
 
 //create app which is an instance of express
