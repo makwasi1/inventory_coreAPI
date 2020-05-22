@@ -16,6 +16,10 @@ const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
+app.get('/',(req,res)=>{
+    res.send('inventory Api')
+})
+
 //middlewares
 app.use('/api/v1/auth',userRouter)
 app.use('/api/v1',catRouter)
