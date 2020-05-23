@@ -1,14 +1,11 @@
 const express =require('express')
 const router = express.Router()
-
+const{ authenticate } = require('../helpers/auth')
 const {addCat,viewCat,getCategory,replaceCategory,
     newCategoryItem,deleteCategory
-    ,getCategoryItems,
- updateCategory} = require('../controllers/catController')
+    ,getCategoryItems, updateCategory} = require('../controllers/catController')
 
-
-
-const {validateParam,schemas,validateBody} = require('../helpers/routeHelper')
+    const {validateParam,schemas,validateBody} = require('../helpers/routeHelper')
 
 //adds a category 
 router.route('/inventory').post(validateBody(schemas.categorySchema),addCat)

@@ -50,7 +50,7 @@ module.exports  = {
 
   deleteItem: async (req,res) =>{
       try {
-          const deleteItem = await Items.remove({_id: req.params.itemsId})
+          const deleteItem = await Items.deleteOne({_id: req.params.itemsId})
           res.json(deleteItem)
       } catch (error) { 
           res.json({message:error})

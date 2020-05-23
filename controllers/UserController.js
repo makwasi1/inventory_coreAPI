@@ -1,13 +1,10 @@
 const db = require("../config");
 const User = require("../models/userModel");
 const {registerValidation} = require('../helpers/validation')
+const JWT = require('jsonwebtoken')
+const {signToken} = require('../helpers/auth')
+require('dotenv').config()
 
-
-db.once("open",  () => {
-    console.log("connected")
-})
-
-db.on("error", () => console.log("disconnected"));
 
 module.exports = {
     Signup: async (req, res) => {
@@ -26,7 +23,8 @@ module.exports = {
         });
         try{
             const savedUser = await Users.save();
-            res.send(savedUser)
+            const token = signToken(savedUser)
+            res.status(200).json({message:'Sign up successfull',token: token})
         }catch (err) {
             res.status(400).send(err);
         }
@@ -39,8 +37,8 @@ module.exports = {
 
         User.findOne({username: username, password: password}).then( loged => {
             if(loged){
-                console.log("login successfully", loged);
-                return res.status(200).json({message: "yeah your login!"})
+                const token = signToken(loged)
+                return res.status(200).json({message: "login Successfull",token: token})
             }else{
                 return res.status(400).json({message: "No such User exists!"})
             }
